@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 interface DropdownOptionsInterface {
+    id: number,
     option: string;
     redirect: string;
 }
@@ -14,52 +15,54 @@ export const DropdownComponent = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+    const handleMouseEnter = () => {
+        setIsOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsOpen(false);
+    };
+
+    // const toggleDropdown = () => {
+    //     setIsOpen(!isOpen);
+    // };
+
+    const handleOptionClick = (option: string) => {
+        console.log(option)
     };
 
     return (
-        <section className="relative inline-block text-left">
-            {/* Button Section */}
+        <section
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>
             <button
-                onClick={toggleDropdown}
-                className="inline-flex justify-between items-center w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
+                // onClick={toggleDropdown}
+                className="text-lg font-bold cursor-pointer focus:outline-none">
                 {title}
-                {/* <svg
-          className={`w-5 h-5 ml-2 transition-transform ${
-            isOpen ? "rotate-180" : "rotate-0"
-          }`}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.293 7.707a1 1 0 011.414 0L10 11.586l3.293-3.879a1 1 0 111.414 1.414l-4 4.5a1 1 0 01-1.414 0l-4-4.5a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg> */}
             </button>
 
-            {/* Dropdown Options */}
-            {isOpen && (
-                <section
-                    className="absolute mt-2 w-56 bg-white divide-y divide-gray-200 rounded-md shadow-lg ring-1 ring-black ring-opacity-5"
-                >
-                    <section className="py-1">
-                        {options.map((op, index) => (
-                            <a
-                                key={index}
-                                href={op.redirect}
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-blue-700 transition"
-                            >
-                                {op.option}
-                            </a>
-                        ))}
-                    </section>
+            <section
+                className={`absolute mt-2 w-44 divide-y divide-gray-200 rounded-md shadow-lg  ring-opacity-5 transition-all duration-300 ease-in-out transform 
+                        ${isOpen
+                        ? "opacity-100 translate-y-0 visible"
+                        : "opacity-0 -translate-y-2 invisible"
+                    }`}>
+                <section className="py-1">
+                    {options.map((op) => (
+                        <a
+                            key={op.id}
+                            href={op.redirect}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleOptionClick(op.id.toString())
+                            }}
+                            className="block px-6 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200">
+                            {op.option}
+                        </a>
+                    ))}
                 </section>
-            )}
+            </section>
         </section>
     );
 };
