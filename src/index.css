@@ -4,6 +4,7 @@
 
 @theme {
   --font-nunito: 'Nunito', sans-serif;
+  --color-blue-drk: '#1e3a8a'
 }
 
 @layer {
@@ -18,5 +19,6 @@
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
+    border-color: #1e3a8a;
   }
 }
